@@ -1,0 +1,68 @@
+<script>
+    function computerPlay() {
+        let choice = Math.floor(Math.random() * 3);
+        if (choice == 0) {
+            return "Rock";
+        } else if (choice == 1) {
+            return "Paper";
+        } else {
+            return "Scissors";
+        }
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        if ((playerSelection.toLowerCase() == "rock") && (computerSelection == "Scissors")) {
+            return "You Win! Rock beats Scissors"
+        } else if ((playerSelection.toLowerCase() == "rock") && (computerSelection == "Paper")) {
+            return "You Lose! Paper beats Rock"
+        } else if ((playerSelection.toLowerCase() == "rock") && (computerSelection == "Rock")) {
+            return "You Draw! Rock does Nothing to Rock"
+        } else if ((playerSelection.toLowerCase() == "paper") && (computerSelection == "Paper")) {
+            return "You Draw! Paper does Nothing to Rock"
+        } else if ((playerSelection.toLowerCase() == "paper") && (computerSelection == "Scissors")) {
+            return "You Lose! Scissors beat Paper"
+        } else if ((playerSelection.toLowerCase() == "paper") && (computerSelection == "Rock")) {
+            return "You Win! Paper beats Rock"
+        } else if ((playerSelection.toLowerCase() == "scissors") && (computerSelection == "Paper")) {
+            return "You Win! Scissors beat Paper"
+        } else if ((playerSelection.toLowerCase() == "scissors") && (computerSelection == "Scissors")) {
+            return "You Draw! Paper does Nothing to Scissors"
+        } else if ((playerSelection.toLowerCase() == "scissors") && (computerSelection == "Rock")) {
+            return "You Lose! Rock beats Scissors"
+        } else {
+            return "Error"
+        }
+    }
+
+    function game(rounds) {
+        let i = 0;
+        let result = ""
+        do {
+            i++;
+            let playerSelection = prompt()
+            let computerSelection = computerPlay()
+            result = playRound(playerSelection, computerSelection);
+            if (result.charAt(4) == "W") {
+                playerWins++;
+                console.log(result);
+            } else if (result.charAt(4) == "L") {
+                computerWins++;
+                console.log(result);
+            } else {
+                console.log(result);
+            }
+        } while (i < rounds);
+    }
+
+    let playerWins = 0;
+    let computerWins = 0;
+    game(5);
+    console.log("You Won " + String(playerWins) + " times! \ The Computer Won " + String(computerWins) + " times.");
+    if (playerWins > computerWins) {
+        console.log("You beat the Computer, Congrats!");
+    } else if (computerWins > playerWins) {
+        console.log("The Computer beat you, too bad...");
+    } else {
+        console.log("It was a Draw!");
+    }
+</script>
