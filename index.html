@@ -1,3 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock, Paper, Scissors Game</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <div id="container">
+            <button type="button" id="Rock">Rock</button>
+            <button type="button" id="Paper">Paper</button>
+            <button type="button" id="Scissors">Scissors</button>
+            <div id="results"></div>
+            <div id="overall-results"></div>
+        </div>
+    </body>
+</html>
+
 <script>
     function computerPlay() {
         let choice = Math.floor(Math.random() * 3);
@@ -10,30 +28,40 @@
         }
     }
 
-    function playRound(playerSelection, computerSelection) {
+    function playRound(playerSelection) {
+        let computerSelection = computerPlay();
         if ((playerSelection.toLowerCase() == "rock") && (computerSelection == "Scissors")) {
+            playerWins++;
             return "You Win! Rock beats Scissors"
         } else if ((playerSelection.toLowerCase() == "rock") && (computerSelection == "Paper")) {
+            computerWins++;
             return "You Lose! Paper beats Rock"
         } else if ((playerSelection.toLowerCase() == "rock") && (computerSelection == "Rock")) {
+            draw++;
             return "You Draw! Rock does Nothing to Rock"
         } else if ((playerSelection.toLowerCase() == "paper") && (computerSelection == "Paper")) {
-            return "You Draw! Paper does Nothing to Rock"
+            draw++;
+            return "You Draw! Paper does Nothing to Paper"
         } else if ((playerSelection.toLowerCase() == "paper") && (computerSelection == "Scissors")) {
+            computerWins++;
             return "You Lose! Scissors beat Paper"
         } else if ((playerSelection.toLowerCase() == "paper") && (computerSelection == "Rock")) {
+            playerWins++;
             return "You Win! Paper beats Rock"
         } else if ((playerSelection.toLowerCase() == "scissors") && (computerSelection == "Paper")) {
+            playerWins++;
             return "You Win! Scissors beat Paper"
         } else if ((playerSelection.toLowerCase() == "scissors") && (computerSelection == "Scissors")) {
-            return "You Draw! Paper does Nothing to Scissors"
+            draw++;
+            return "You Draw! Scissors do Nothing to Scissors"
         } else if ((playerSelection.toLowerCase() == "scissors") && (computerSelection == "Rock")) {
+            computerWins++;
             return "You Lose! Rock beats Scissors"
         } else {
             return "Error"
         }
     }
-
+/*
     function game(rounds) {
         let i = 0;
         let result = ""
@@ -53,9 +81,46 @@
             }
         } while (i < rounds);
     }
+*/
+    function updateResults() {
+        if (playerWins == 5) {
+            reset();
+            return "<br>YOU WIN!<br>You have Won " + String(playerWins) + " times!<br>The Computer Won " + String(computerWins) + " times. <br> You drew " + String(draw) + " times.";
+        } else if (computerWins == 5) {
+            reset();
+            return "<br>YOU LOSE!<br>The Computer Won " + String(computerWins) + " times.<br>You Won " + String(playerWins) + " times!<br>You drew " + String(draw) + " times.";
+        } else {
+            return "<br>You have Won " + String(playerWins) + " times!<br>The Computer has Won " + String(computerWins) + " times.<br>You have drawn " + String(draw) + " times.";
+        }
+    }
+
+    function reset() {
+        var elem1 = document.querySelector('#Rock');
+        elem1.parentNode.removeChild(elem1);
+        var elem2 = document.querySelector('#Paper');
+        elem2.parentNode.removeChild(elem2);
+        var elem3 = document.querySelector('#Scissors');
+        elem3.parentNode.removeChild(elem3);
+        var elem4 = document.querySelector('#results')
+        let resetBtn = document.createElement("button");
+        resetBtn.innerHTML = "Reset";
+        resetBtn.type = "button";
+        resetBtn.id = "Reset";
+        elem4.parentNode.insertBefore(resetBtn, elem4);
+    }
 
     let playerWins = 0;
     let computerWins = 0;
+    let draw = 0;
+
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            document.querySelector('#results').innerHTML = playRound(button.id);
+            document.querySelector('#overall-results').innerHTML = updateResults();
+        });
+    });
+    /*
     game(5);
     console.log("You Won " + String(playerWins) + " times! \ The Computer Won " + String(computerWins) + " times.");
     if (playerWins > computerWins) {
@@ -65,4 +130,5 @@
     } else {
         console.log("It was a Draw!");
     }
+    */
 </script>
